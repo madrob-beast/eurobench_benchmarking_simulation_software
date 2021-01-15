@@ -185,7 +185,8 @@ RUN git clone https://github.com/madrob-beast/eurobench_reemc_door
 
 # other ros dependecies
 RUN sudo apt install -y ros-kinetic-realtime-tools  \ 
-	ros-kinetic-control-toolbox \
+	ros-kinetic-control-toolbox  \
+	ros-kinetic-ddynamic-reconfigure \
 	ros-kinetic-four-wheel-steering-msgs \
 	ros-kinetic-moveit-ros-planning-interface \
 	ros-kinetic-humanoid-nav-msgs \
@@ -194,6 +195,10 @@ RUN sudo apt install -y ros-kinetic-realtime-tools  \
 	python-pandas \
 	python-tk
 RUN pip install PyYAML==5.1 
+
+# ================== removing ddynamic_reconfigure package
+RUN rm -rf ddynamic_reconfigure/
+
 WORKDIR /home/roseurobench/reemc_public_ws/
 
 #RUN echo "$(pwd)"
