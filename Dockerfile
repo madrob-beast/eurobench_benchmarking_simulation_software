@@ -136,8 +136,8 @@ WORKDIR /home/roseurobench/
 
 # ================== REEM-C installation
 RUN sudo apt update
-RUN sudo apt install wget
-RUN sudo apt-get install ros-kinetic-catkin python-catkin-tools
+RUN sudo apt install -y wget
+RUN sudo apt-get install -y ros-kinetic-catkin python-catkin-tools
 RUN echo $(pwd)
 RUN mkdir reemc_public_ws && \
 	 cd reemc_public_ws
@@ -200,7 +200,7 @@ WORKDIR /home/roseurobench/reemc_public_ws/
 
 RUN echo "\n\n \033[92m  \
 DON'T FORGET TO RUN  catkin build -DCATKIN_ENABLE_TESTING=0 inside the docker \n \
-NB: the run script takes on input the id of this container tht you can find \
+NB: the run_the_container script takes as input the id of this container that you can find \
 at end of this procedure \n\n \033[0m "
 
 SHELL ["/bin/bash", "-c", "source ../devel/setup.bash"]
