@@ -159,28 +159,30 @@ RUN rosdep install --from-paths src --ignore-src --rosdistro kinetic \
 RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash"
 #RUN /bin/bash -c "echo $(pwd)"
 WORKDIR /home/roseurobench/reemc_public_ws/src
-#RUN /bin/bash -c "catkin_init_workspace"
 
-#RUN catkin build -DCATKIN_ENABLE_TESTING=0
-#RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash"
 
 RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
 #RUN /bin/bash -c "source ~/.bashrc"
 
-# ================== madrob performance indicator
+# ================== madrob-beast performance indicator
 RUN git clone https://github.com/madrob-beast/madrob_beast_pi.git
 #RUN python -m pip install -e madrob_beast_pi/src/madrob_beast_pi
 
-# ================== madrob
+# ================== madrob-beast
 RUN git clone https://github.com/madrob-beast/eurobench_benchmarking_software.git
 RUN git clone https://github.com/madrob-beast/madrob_msgs.git
 RUN git clone https://github.com/madrob-beast/madrob_srvs.git
 RUN git clone https://github.com/madrob-beast/beast_msgs.git
 RUN git clone https://github.com/madrob-beast/beast_srvs.git
+RUN git clone https://github.com/madrob-beast/beast_localization
+RUN git clone https://github.com/madrob-beast/beast_scan_filter
+RUN git clone https://github.com/madrob-beast/beast_localization
+RUN git clone https://github.com/madrob-beast/beast_odometry_publisher
 #RUN rosdep install --from-paths ./src --ignore-src
 
-# ================== madrob-reemc brdge 
+# ================== madrob-beast-reemc brdge 
 RUN git clone https://github.com/madrob-beast/madrob_simulation_state_collector
+RUN git clone https://github.com/madrob-beast/beast_simulation_state_collector
 RUN git clone https://github.com/madrob-beast/eurobench_reemc_door
 
 # other ros dependecies
@@ -191,6 +193,8 @@ RUN sudo apt install -y ros-kinetic-realtime-tools  \
 	ros-kinetic-moveit-ros-planning-interface \
 	ros-kinetic-humanoid-nav-msgs \
 	ros-kinetic-urdf-geometry-parser \
+	ros-kinetic-amcl \
+	ros-kinetic-map-server \
 	python3-pandas \
 	python-pandas \
 	python-tk
