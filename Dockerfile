@@ -176,7 +176,6 @@ RUN git clone https://github.com/madrob-beast/beast_msgs.git
 RUN git clone https://github.com/madrob-beast/beast_srvs.git
 RUN git clone https://github.com/madrob-beast/beast_localization
 RUN git clone https://github.com/madrob-beast/beast_scan_filter
-RUN git clone https://github.com/madrob-beast/beast_localization
 RUN git clone https://github.com/madrob-beast/beast_odometry_publisher
 #RUN rosdep install --from-paths ./src --ignore-src
 
