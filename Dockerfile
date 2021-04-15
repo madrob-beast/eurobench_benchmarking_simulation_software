@@ -185,6 +185,8 @@ RUN git clone https://github.com/madrob-beast/beast_simulation_state_collector
 RUN git clone https://github.com/madrob-beast/eurobench_reemc_door
 
 # other ros dependecies
+RUN apt-get -y update
+
 RUN sudo apt install -y ros-kinetic-realtime-tools  \ 
 	ros-kinetic-control-toolbox  \
 	ros-kinetic-ddynamic-reconfigure \
