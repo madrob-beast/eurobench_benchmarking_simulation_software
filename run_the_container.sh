@@ -8,7 +8,6 @@ then
 else
       echo "Using image $DOCKER_NAME ..."
 fi
-# TODO ADD file saving for docker number https://stackoverflow.com/questions/5965737/how-can-one-store-a-variable-in-a-file-using-bash
 
 xhost +local:docker
 XSOCK=/tmp/.X11-unix
