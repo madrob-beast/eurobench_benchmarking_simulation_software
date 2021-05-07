@@ -183,6 +183,7 @@ RUN git clone https://github.com/madrob-beast/beast_odometry_publisher
 RUN git clone https://github.com/madrob-beast/madrob_simulation_state_collector
 RUN git clone https://github.com/madrob-beast/beast_simulation_state_collector
 RUN git clone https://github.com/madrob-beast/eurobench_reemc_door
+RUN git clone https://github.com/madrob-beast/eurobench_reemc_cart
 
 # other ros dependecies
 RUN apt-get -y update
