@@ -9,7 +9,8 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
 # below sourced from https://gitlab.com/nvidia/opengl/blob/ubuntu16.04/base/Dockerfile
 
 RUN dpkg --add-architecture i386 && \
-    apt-get update && apt-get install -y --no-install-recommends \
+    	apt-get update && \
+	apt-get install -y --no-install-recommends \
         libxau6 libxau6:i386 \
         libxdmcp6 libxdmcp6:i386 \
         libxcb1 libxcb1:i386 \
@@ -22,7 +23,8 @@ ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu${LD_LIBRAR
 # ==================
 # below sourced from https://gitlab.com/nvidia/opengl/blob/ubuntu14.04/1.0-glvnd/runtime/Dockerfile
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends \
         apt-utils && \
     apt-get install -y --no-install-recommends \
         git \
@@ -49,7 +51,7 @@ RUN git clone --branch=v1.0.0 https://github.com/NVIDIA/libglvnd.git . && \
     find /usr/local/lib/x86_64-linux-gnu -type f -name 'lib*.la' -delete
 
 RUN dpkg --add-architecture i386 && \
-    apt-get update && apt-get install -y --no-install-recommends \
+    	apt-get update && apt-get install -y --no-install-recommends \
         gcc-multilib \
         libxext-dev:i386 \
         libx11-dev:i386 && \
@@ -117,7 +119,7 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc
 # ================== Install ROS packages
 #RUN apt-get update && apt-get install -y \
 #        ros-kinetic-ecc
-#    rm -rf /var/lib/apt/lists/*
+RUN    rm -rf /var/lib/apt/lists/*
 
 # ================== Add new sudo user
 #ENV USERNAME=username
@@ -135,9 +137,10 @@ RUN echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc
 WORKDIR /home/roseurobench/
 
 # ================== REEM-C installation
-RUN sudo apt update
-RUN sudo apt install -y wget
-RUN sudo apt-get install -y ros-kinetic-catkin python-catkin-tools
+RUN apt-get update && \
+	apt-get install -y --allow-unauthenticated \
+	wget \
+	ros-kinetic-catkin python-catkin-tools
 RUN echo $(pwd)
 RUN mkdir reemc_public_ws && \
 	 cd reemc_public_ws
@@ -186,13 +189,15 @@ RUN git clone https://github.com/madrob-beast/eurobench_reemc_door
 RUN git clone https://github.com/madrob-beast/eurobench_reemc_cart
 
 # other ros dependecies
-RUN apt-get -y update
-
-RUN sudo apt install -y ros-kinetic-realtime-tools  \ 
+RUN apt-get update && \
+	apt-get install -y --allow-unauthenticated \
+	ros-kinetic-realtime-tools  \ 
 	ros-kinetic-control-toolbox  \
 	ros-kinetic-ddynamic-reconfigure \
 	ros-kinetic-four-wheel-steering-msgs \
 	ros-kinetic-moveit-ros-planning-interface \
+	ros-kinetic-moveit-planners-ompl \
+	ros-kinetic-moveit-simple-controller-manager \
 	ros-kinetic-humanoid-nav-msgs \
 	ros-kinetic-urdf-geometry-parser \
 	ros-kinetic-amcl \
@@ -205,18 +210,32 @@ RUN pip install PyYAML==5.1
 # ================== removing ddynamic_reconfigure package
 RUN rm -rf ddynamic_reconfigure/
 
-WORKDIR /home/roseurobench/reemc_public_ws/
+WORKDIR /root/.gazebo/models
+#RUN git clone https://github.com/osrf/gazebo_models
+#RUN mv gazebo_models/* .
+
+RUN git clone https://github.com/osrf/gazebo_models && \
+	 cd gazebo_models && \
+	 git filter-branch --subdirectory-filter sun
+
+RUN mv gazebo_models sun
 
 #RUN echo "$(pwd)"
 
+WORKDIR /home/roseurobench/reemc_public_ws/
+
 RUN echo "\n\n \033[92m  \
-DON'T FORGET TO RUN  catkin build -DCATKIN_ENABLE_TESTING=0 inside the docker \n \
 NB: the run_the_container script takes as input the id of this container that you can find \
 at end of this procedure \n\n \033[0m "
 
-SHELL ["/bin/bash", "-c", "source ../devel/setup.bash"]
 
-#SHELL [ "/bin/bash", "-c", "catkin build -DCATKIN_ENABLE_TESTING=0"]
+WORKDIR /home/roseurobench/reemc_public_ws/
 
+#RUN apt-get -y update
+
+
+RUN bash -c "source /opt/ros/kinetic/setup.bash \
+    && catkin build -DCATKIN_ENABLE_TESTING=0 \
+    && echo 'source $/home/roseurobench/reemc_public_ws/devel/setup.bash' >> ~/.bashrc"
 
 
