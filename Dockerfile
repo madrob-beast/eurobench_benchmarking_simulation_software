@@ -236,6 +236,7 @@ WORKDIR /home/roseurobench/reemc_public_ws/
 
 RUN bash -c "source /opt/ros/kinetic/setup.bash \
     && catkin build -DCATKIN_ENABLE_TESTING=0 \
-    && echo 'source $/home/roseurobench/reemc_public_ws/devel/setup.bash' >> ~/.bashrc"
+    && echo 'source /home/roseurobench/reemc_public_ws/devel/setup.bash' >> ~/.bashrc"
+
 
 
